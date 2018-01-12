@@ -1,7 +1,12 @@
 <!doctype html>
 <meta charset="utf-8">
-
 <style media="screen">
+
+body {
+  background-image: url('http://www.acciona-energia.com/media/25688206/el-romero_galeria13.jpg');
+  background-size: cover;
+}
+
 #text {
   width: 25%;
   float: left;
@@ -13,6 +18,8 @@
   width: 65%;
   float: right;
   margin: 0 auto;
+  margin: 0;
+  padding: 0;
 }
 </style>
 
@@ -20,54 +27,27 @@
 <script src="http://d3plus.org/js/d3plus.js"></script>
 
 <div id="text">
-  <h2>Network</h2>
-  <p>By passing D3plus a list of node positions and connections, a Network can be created and data can be mapped to the size of each node.</p>
-  <a href="https://d3plus.org/examples/basic/9042919/">Networks on D3plus</a>
+  <p>La energía solar en Chile tiene el potencial de producir la totalidad de la electricidad usada en el país, mientras que la zona norte de Chile posee la mayor incidencia solar del mundo, concentrándose la principal en el desierto de Atacama y sus alrededores.1​ Además, Chile concentra una de las mayores reservas mundiales de litio, mineral utilizado frecuentemente en la elaboración de paneles para la producción de energía solar fotovoltaica.</p>
 </div>
 
 <div id="viz"></div>
 
 <script>
-  // create sample dataset
-  var sample_data = [
-    {"name": "alpha", "size": 10},
-    {"name": "beta", "size": 200},
-    {"name": "gamma", "size": 30},
-    {"name": "delta", "size": 26},
-    {"name": "epsilon", "size": 12},
-    {"name": "zeta", "size": 26},
-    {"name": "theta", "size": 11},
-    {"name": "eta", "size": 24}
-  ]
-  // create list of node positions
-  var positions = [
-    {"name": "alpha", "x": 0, "y": 15},
-    {"name": "beta", "x": 12, "y": 24},
-    {"name": "gamma", "x": 16, "y": 18},
-    {"name": "delta", "x": 26, "y": 21},
-    {"name": "epsilon", "x": 13, "y": 4},
-    {"name": "zeta", "x": 31, "y": 13},
-    {"name": "theta", "x": 19, "y": 8},
-    {"name": "eta", "x": 24, "y": 11}
-  ]
-  // create list of node connections
-  var connections = [
-    {"source": "alpha", "target": "beta"},
-    {"source": "alpha", "target": "gamma"},
-    {"source": "beta", "target": "delta"},
-    {"source": "beta", "target": "epsilon"},
-    {"source": "zeta", "target": "gamma"},
-    {"source": "theta", "target": "gamma"},
-    {"source": "eta", "target": "gamma"}
-  ]
-  // instantiate d3plus
+
+
+d3.json("generacion-solar.json", function(error, ourdata) {
+  if (error) return console.error(error);
+  make_viz(ourdata);
+});
+
+function make_viz(data){
   var visualization = d3plus.viz()
-    .container("#viz")  // container DIV to hold the visualization
-    .type("network")    // visualization type
-    .data(sample_data)  // sample dataset to attach to nodes
-    .nodes(positions)   // x and y position of nodes
-    .edges(connections) // list of node connections
-    .size("size")       // key to size the nodes
-    .id("name")         // key for which our data is unique on
-    .draw()             // finally, draw the visualization!
+      .container("#viz")
+      .data(data)
+      .type("tree_map")
+      .id("Codigo Central")
+      .size("Generacion_MWh")
+      .draw()
+}
+
 </script>
